@@ -4,9 +4,9 @@ const port = 5000;
 
 app.use(express.json());
 
-/*app.get('/', (req,res)=> {
+app.get('/', (req,res)=> {
     res.send('Hello World!');
-});*/
+});
 
 const users = {
     users_list :
@@ -43,7 +43,7 @@ const users = {
     res.send(users);
 });*/
 
-/*app.get('/users', (req, res) => {
+app.get('/users', (req, res) => {
     const name = req.query.name;
     if (name != undefined){
         let result = findUserByName(name);
@@ -54,7 +54,7 @@ const users = {
         res.send(users);
     }
 });
-*/
+
 const findUserByName = (name) => { 
     return users['users_list'].filter( (user) => user['name'] === name); 
 }
@@ -74,6 +74,16 @@ app.get('/users/:id', (req, res) => {
 function findUserById(id) {
     return users['users_list'].find( (user) => user['id'] === id); // or line below
     //return users['users_list'].filter( (user) => user['id'] === id);
+}
+
+app.post('/users', (req, res) => {
+    const userToAdd = req.body;
+    addUser(userToAdd);
+    res.status(200).end();
+});
+
+function addUser(user){
+    users['users_list'].push(user);
 }
 
 app.listen(port, () => {
