@@ -8,10 +8,6 @@ app.get('/', (req,res)=> {
     res.send('Hello World!');
 });
 
-app.listen(port, () => {
-    console.log("Example app listening at http://localhost:${port}");
-});
-
 const users = {
     users_list :
     [
@@ -43,3 +39,10 @@ const users = {
     ]
 }
 
+app.get('/users', (req, res) => {
+    res.send(users);
+});
+
+app.listen(port, () => {
+    console.log("Example app listening at http://localhost:${port}");
+});
