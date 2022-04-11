@@ -68,15 +68,16 @@ app.get('/users/:id', (req, res) => {
         res.send(result);
     }
 });
-
+// /users/:id
 app.delete('/users/:id',(req, res) => {
+    //res.send("DELETE Request Called");
     const id = req.params['id'];
     let result = findUserById(id);
     if(result === undefined || result.length == 0)
-        res.status(404).send('Resource not found.');
+        res.status(404).send('User not found.');
     else {
-        result = {users_list: result};
-        res.send(result);
+        let iter = users['users_list'].findIndex(fResult => fResult === result);
+        users['users_list'].splice(iter,1);
     }
 });
 
@@ -88,10 +89,17 @@ function findUserById(id) {
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).end();          // RETURNING 201 STATUS
 });
 
+function getRndInteger(min, max) {
+    var num =  Math.floor(Math.random() * (max - min) ) + min;
+    return num;
+}
+
 function addUser(user){
+    var rand = getRndInteger(0,1000);
+    user.id = "ads" + rand;
     users['users_list'].push(user);
 }
 
